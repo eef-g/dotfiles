@@ -1,7 +1,7 @@
-{ configs, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
-    alacritty
+    gh
   ];
 }

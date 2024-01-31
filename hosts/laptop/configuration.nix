@@ -9,10 +9,18 @@
     ];
 
     # Bootloader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+		boot.loader = {
+			grub = {
+				enable = true;
+				device = "/dev/sda";
+				useOSProber = true;
+			};
+		};
 
-    networking.hostName = "nixos"; 
+    # SSH server
+    networking.hostName = "nix-laptop"; 
+    services.openssh.enable = true;
+    networking.firewall.allowedTCPPorts = [ 22 ];
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
     # Enable networking
@@ -121,10 +129,10 @@
 		firefox
 		alacritty 
 		discord
-		neofetch
 		steam
 		spotify
 		vscode
+		git
 	];
 
 	# Some programs need SUID wrappers, can be configured further or are
