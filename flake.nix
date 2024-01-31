@@ -19,6 +19,7 @@
       modules = {
         cli-tools = builtins.mapAttrs (name: path: "${self}/modules/home-manager/cli-tools/${name}") (builtins.readDir "${self}/modules/home-manager/cli-tools");
         terminals = builtins.mapAttrs (name: path: "${self}/modules/home-manager/terminals/${name}") (builtins.readDir "${self}/modules/home-manager/terminals");
+        software = builtins.mapAttrs (name: path: "${self}/modules/home-manager/software/${name}") (builtins.readDir "${self}/modules/home-manager/software");
       };
     in
     {
@@ -37,7 +38,8 @@
             ./hosts/laptop/hardware-configuration.nix
           ] 
           ++ builtins.attrValues modules.cli-tools
-          ++ builtins.attrValues modules.terminals;
+          ++ builtins.attrValues modules.terminals
+          ++ builtins.attrValues modules.software;
         };
       };
     };
