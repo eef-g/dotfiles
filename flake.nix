@@ -41,6 +41,14 @@
           ++ builtins.attrValues modules.terminals
           ++ builtins.attrValues modules.software;
         };
+
+	wsl = nixpkgs.lib.nixosSystem {
+	  specialArgs = {inherit inputs;};
+	  modules = [
+	    ./hosts/wsl/configuration.nix
+	  ];
+	  # ++ builtins.attrValues.modules.cli-tools;
+	};
       };
     };
 }
