@@ -1,23 +1,44 @@
 <h1 align="center"> <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="40" height="40"/> Eef's NixOS Configuration Files <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="40" height="40"/> </h1>
-<p align="center">This is a repo for me to store and update my NixOS configurations. Feel free to reuse them or simply copy-paste them into your own NixOS installation</p>
+<p align="center">This is a repo for me to store and update my NixOS configurations. Feel free to reuse and edit/customize them or simply copy-paste them into your own NixOS installation</p>
 
 <br> <br> <br>
 <h2 align="center"> <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> Building <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> </h2>
 
 1. Install NixOS on a machine (if using NixOS on WSL, follow the instructions [here](https://github.com/nix-community/NixOS-WSL))
-2. Clone this repository into a folder. Below is the command I usually use for this step:
+2. Make sure you have git installed on the NixOS install. If not, add the following text to your /etc/nixos/configuration.nix file. If you want to use a nix-shell instead, skip this step.
+```bash
+# First, use nano to edit the configuration.nix file
+sudoedit /etc/nixos/configuration.nix
+```
+```nix
+# Add the following to your configuration if on WSL:
+environment.systemPackages = with pkgs; [
+    git
+    # gh # If you want to log in to GitHub, uncomment this line
+];
+```
+```nix
+# Add the following to your environment.systemPackages variable in your configuration if using a default NixOS install NOT on WSL:
+git
+```
+3. Clone this repository into a folder. Below is the command I usually use for this step:
 ```bash
 git clone https://github.com/eef-g/nix-dots.git ~/nix
-``` 
-3. Enable the build script within the new directory if you want to have an easy time building the NixOS images
+```
+```bash
+# If you want to use a nix-shell, use the following commands.
+# NOTE: Stay in the nix-shell until you complete the first run of the build script if using this method
+sudo nix-shell -p git --run 'git clone https://github.com/eef-g/nix-dots.git'
+```
+4. Enable the build script within the new directory if you want to have an easy time building the NixOS images
 ```bash
 sudo chmod +x ~/nix/build.sh
 ```
-4. Run the help command on the build script
+5. Run the help command on the build script
 ```bash
 ./build.sh -h
 ```
-5. To use one of my configurations, run one of the following commands. These are based off of <u><b>my</b></u> hardware, so you may experience issues if you do this (__make sure you are within the ~/nix directory to run the following commands__):
+6. To use one of my configurations, run one of the following commands. These are based off of <u><b>my</b></u> hardware, so you may experience issues if you do this (__make sure you are within the ~/nix directory to run the following commands__):
 ```bash
 sudo ./build.sh <CONFIG_LISTED_FROM_HELP_COMMAND>
 ```
@@ -78,7 +99,7 @@ config_name = nixpkgs.lib.nixosSystem {
   - To create your own modules, you can create either a new directory or a new .nix file in the modules/ directory. The way that the modules are currently organized is as follows:
     - modules > type_of_module > module_collection > individual_module_nix_files
   - Once your modules are created, you can include them from the instructions above.
-  - To add your own module collections to the flake, edit the outputs.modules variable by adding the following line within the modules = {} section of the program:
+  - To add your own module collections to the flake, edit the outputs.modules variable by adding the following line within the modules section of the program:
 ```nix
 # Replace the variable name and the string variables to include the name of your collection and the path to the directory of your collection
 collection_name = builtins.mapAttrs (name: path: "$self}/path_to_module_collection_dir/${name}") (builtins.redDir "${self}/path_to_module_collection_dir");
