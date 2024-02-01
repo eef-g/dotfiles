@@ -20,6 +20,7 @@
         cli-tools = builtins.mapAttrs (name: path: "${self}/modules/home-manager/cli-tools/${name}") (builtins.readDir "${self}/modules/home-manager/cli-tools");
         terminals = builtins.mapAttrs (name: path: "${self}/modules/home-manager/terminals/${name}") (builtins.readDir "${self}/modules/home-manager/terminals");
         software = builtins.mapAttrs (name: path: "${self}/modules/home-manager/software/${name}") (builtins.readDir "${self}/modules/home-manager/software");
+	dev-tools = builtins.mapAttrs (name: path: "${self}/modules/home-manager/dev-tools/${name}") (builtins.readDir "${self}/modules/home-manager/dev-tools");
       };
     in
     {
@@ -47,8 +48,9 @@
 	  modules = [
 	    ./hosts/wsl/configuration.nix
 	    ./hosts/wsl/hardware-configuration.nix
-	  ];
-	  # ++ builtins.attrValues.modules.cli-tools;
+	  ]
+	  ++ builtins.attrValues modules.cli-tools
+	  ++ builtins.attrValues modules.dev-tools;
 	};
       };
     };

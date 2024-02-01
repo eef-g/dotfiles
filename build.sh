@@ -28,6 +28,9 @@ if [ "$#" -gt 0 ]; then
     esac
 fi
 
+
+# Update the git repo -- Won't be able to push because the branch is protected.
+git add .
 if [ "$image" == "wsl" ]; then
 	nixos-generate-config
 	nix-channel --update
