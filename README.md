@@ -1,5 +1,5 @@
 <h1 align="center"> <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="40" height="40"/> Eef's NixOS Configuration Files <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="40" height="40"/> </h1>
-<p align="center">This is a repo for me to store and update my NixOS configurations. Feel free to reuse them or simply copy-paste them into your own NixOS installation</p>
+<p align="center">This is a repo for me to store and update my NixOS configurations. Feel free to reuse and edit/customize them or simply copy-paste them into your own NixOS installation</p>
 
 <br> <br> <br>
 <h2 align="center"> <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> Building <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> </h2>
