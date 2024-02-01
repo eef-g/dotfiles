@@ -21,7 +21,7 @@ environment.systemPackages = with pkgs; [
 # Add the following to your environment.systemPackages variable in your configuration if using a default NixOS install NOT on WSL:
 git
 ```
-3. Clone this repository into a folder. Below is the command I usually use for this step:
+3. Clone this repository into a folder (__NOTE: If you want to avoid issues with git and NixOS, make a fork of this repository and clone the fork instead of the original__). Below is the command I usually use for this step:
 ```bash
 git clone https://github.com/eef-g/nix-dots.git ~/nix
 ```
