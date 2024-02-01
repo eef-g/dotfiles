@@ -46,6 +46,7 @@
 	  specialArgs = {inherit inputs;};
 	  modules = [
 	    ./hosts/wsl/configuration.nix
+	    ./hosts/wsl/hardware-configuration.nix
 	  ];
 	  # ++ builtins.attrValues.modules.cli-tools;
 	};

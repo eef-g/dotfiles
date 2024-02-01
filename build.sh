@@ -28,5 +28,11 @@ if [ "$#" -gt 0 ]; then
     esac
 fi
 
+if [ "$image" == "wsl" ]; then
+	nixos-generate-config
+	nix-channel --update
+	nixos-rebuild switch --flake .#${image} --impure
+	exit 0
+fi
 # Run the nixos-rebuild command with the image name
-nixos-rebuild switch --flake .#${image}
+nixos-rebuild switch --flake .#${image} 
