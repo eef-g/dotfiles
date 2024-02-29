@@ -4,6 +4,7 @@
     /etc/nixos/hardware-configuration.nix
     ./hyprland.nix
     # Add other nixos configuration files here
+    (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   ];
 
   # NixOS Settings
@@ -17,11 +18,11 @@
   };
 
   # Virtualization
-  programs.virt-manager.enable = true;
-  virtualization = {
-    libvirtd.enable = true;
-    # Add QEmu & KVM & Docker later
-  };
+  # programs.virt-manager.enable = true;
+  # virtualization = {
+  #   libvirtd.enable = true;
+  #   # Add QEmu & KVM & Docker later
+  # };
 
   # Dconf
   programs.dconf.enable = true;
@@ -34,18 +35,30 @@
     git
     zsh
     wget
+    kitty
     # Add more packages later
   ];
+
+  # Timezone
+  time.timeZone = "America/Los_Angeles";
 
   # Services
   services = {
     xserver = {
       enable = true;
+      libinput.enable = true;
       excludePackages = [ pkgs.xterm ];
+
+      # DisplayManager & Default DM
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
     };
     printing.enable = true;
     flatpak.enable = true;
+    vscode-server.enable = true;
+    localtimed.enable = true;
   };
+
 
   # Logind
   services.logind.extraConfig = ''
@@ -55,10 +68,13 @@
   '';
 
   # KDE Connect
-  networking.firewall = rec {
-    allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
-    allowedUDPPortRanges = allowedTCPPortRanges;
-  };
+  # networking.firewall = rec {
+  #   allowedTCPPortRanges = [{ from = 1714; to = 1764; } 22];
+  #   allowedUDPPortRanges = allowedTCPPortRanges;
+  # };
+  
+  # Shell (ZSH but change to whatever shell you use)
+  programs.zsh.enable = true;
 
   # User
   users.users.${username} = {
@@ -72,6 +88,7 @@
       "video"
       "libvirtd"
     ];
+    shell = pkgs.zsh;
   };
 
   # Network
@@ -98,7 +115,7 @@
       efi.canTouchEfiVariables = true;
     };
     # Change Theming here
-  }
+  };
 
   system.stateVersion = "23.05";
 }
