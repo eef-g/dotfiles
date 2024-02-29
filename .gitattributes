@@ -2,4 +2,4 @@
 *.ts linguist-vendored
 *.json linguist-vendored
 *.scss linguist-vendored
-
+*.zsh linguist-vendored

@@ -6,6 +6,7 @@ in
   imports = [
     ./packages.nix
     ./ags.nix
+    ./zsh.nix # <-- Uncomment when the zsh.nix file is done
   ];
 
   news.display = "show";
@@ -44,9 +45,6 @@ in
     "file://${homeDirectory}/Videos"
     "file://${homeDirectory}/Downloads"
     "file://${homeDirectory}/Desktop"
-    "file://${homeDirectory}/Projects"
-    "file://${homeDirectory}/Vault"
-    "file://${homeDirectory}/Vault/School"
     "file://${homeDirectory}/.config Config"
     "file://${homeDirectory}/.local/share Local"
   ];

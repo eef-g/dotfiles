@@ -44,6 +44,8 @@
     ranger
     gnupg
     nerdfonts
+    cmake
+    gnumake
 
     # hyprland
     wl-gammactl

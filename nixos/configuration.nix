@@ -34,6 +34,7 @@
     neovim
     git
     zsh
+    zsh-powerlevel10k
     wget
     kitty
     # Add more packages later
