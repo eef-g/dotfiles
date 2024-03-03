@@ -6,7 +6,7 @@ in
   imports = [
     ./packages.nix
     ./ags.nix
-    ./zsh.nix # <-- Uncomment when the zsh.nix file is done
+    ./zsh.nix
   ];
 
   news.display = "show";

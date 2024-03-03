@@ -22,6 +22,7 @@
     steam
     brave
     protonvpn-gui
+    vscodium
 
     # tools
     bat
