@@ -23,7 +23,7 @@ in
   };
   
   # Enable Wayland as the main compositor for X-based programs
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   wayland.windowManager.hyprland = {
       enable = true;
@@ -35,14 +35,24 @@ in
         exec-once = [
           "ags -b hypr"
           "hyprctl setcursor Adwaita 24"
-          "transmission-gtk"
         ];
 
         monitor = [
-          ",preferred,auto,auto"
+          #",preferred,auto,auto"
           #<MONITOR_NAME>,<RESOLUTION>,<PLACEMENT>,<SCALE>
           # Example:
           # eDP-1, 1920x1080, 0x0, 1
+          "DP-1,1920x1080,0x0,auto"
+          "DVI-D-1,1920x1080,1920x0,auto"
+        ];
+
+        workspace = [
+          "1, monitor:DP-1"
+          "2, monitor:DVI-D-1"
+          "3, monitor:DP-1"
+          "4, monitor:DVI-D-1"
+          "5, monitor:DP-1"
+          "6, monitor:DVI-D-1"
         ];
 
         general = {
@@ -110,18 +120,17 @@ in
           arr = [1 2 3 4 5 6 7 8 9];
         in [
           # App Shortcuts
-          "CTRL SHIFT, R, ${ags_e} quit; ags - b hypr"
-          "SUPER, Space   ${ags_e} -t applauncher"
-          "SUPER, Tab     ${ags_e} -t overview"
+          "CTRL SHIFT, R, ${ags_e} quit; ags -b hypr"
+          "SUPER, Space,  ${ags_e} -t applauncher"
+          "SUPER, Tab,    ${ags_e} -t overview"
           ",XF86PowerOff, ${ags_e} -r 'powermenu.shutdown()'"
-          "SUPER SHIFT, S ${ags_e} -r 'recorder.screenshot(true)'"
+          "SUPER SHIFT, S, ${ags_e} -r 'recorder.screenshot(true)'"
           "SUPER, Return, exec, kitty"
           "SUPER, W, exec, brave"
           # Window Behavior
           "SUPER, Q, killactive"
           "SUPER, V, togglefloating"
           "SUPER, F, fullscreen"
-          "SUPER, P, psuedo"
           "SUPER, J, togglesplit"
           # Window Navigation
           (mvfocus "k" "u")

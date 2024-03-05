@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
 # Functions
+
+has_nvidia() {
+    if nvidia-smi > /dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 help_text() {
 	echo "=-=-=- Eef's NixOS Rebuild Script -=-=-="
 	echo "Usage:"
@@ -25,6 +34,15 @@ rebuild_option() {
 	return 0
 }
 
+
+test_flag() {
+	if has_nvidia; then
+		echo "Nvidia GPU detected"
+	else
+		echo "No Nvidia GPU detected"
+	fi
+}
+
 # If no arguments, then do full rebuild
 if [[ "$#" -eq 0 ]]; then
 	echo "Rebuilding nixOS & Home Manager"
@@ -36,6 +54,7 @@ while test $# != 0; do
 	case "$1" in
 	-h) help_text ;;
 	-m) rebuild_option $2 ;;
+	-t) test_flag ;;
 	esac
 	shift
 done

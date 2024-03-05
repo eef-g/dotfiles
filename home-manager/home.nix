@@ -7,6 +7,7 @@ in
     ./packages.nix
     ./ags.nix
     ./zsh.nix
+    ./hyprland.nix
   ];
 
   news.display = "show";

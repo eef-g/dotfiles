@@ -13,16 +13,14 @@
     gimp
     transmission_4-gtk
     discord
+    vesktop
     bottles
-    teams-for-linux
     icon-library
     dconf-editor
-    figma-linux
     vscode
-    steam
     brave
     protonvpn-gui
-    vscodium
+    starship
 
     # tools
     bat

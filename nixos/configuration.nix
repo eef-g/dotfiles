@@ -3,6 +3,10 @@
   imports = [
     /etc/nixos/hardware-configuration.nix
     ./hyprland.nix
+
+    # Comment this out if not using NVIDIA card:
+    ./nvidia.nix
+
     # Add other nixos configuration files here
     (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   ];
@@ -37,8 +41,14 @@
     zsh-powerlevel10k
     wget
     kitty
+    steam
+    ckb-next
     # Add more packages later
   ];
+  hardware.ckb-next.enable = true;
+  programs.steam.enable = true;
+
+
 
   # Timezone
   time.timeZone = "America/Los_Angeles";
@@ -69,10 +79,10 @@
   '';
 
   # KDE Connect
-  # networking.firewall = rec {
-  #   allowedTCPPortRanges = [{ from = 1714; to = 1764; } 22];
-  #   allowedUDPPortRanges = allowedTCPPortRanges;
-  # };
+  networking.firewall = rec {
+    allowedTCPPortRanges = [{ from = 1714; to = 1764; }]; 
+    allowedUDPPortRanges = allowedTCPPortRanges;
+  };
   
   # Shell (ZSH but change to whatever shell you use)
   programs.zsh.enable = true;
