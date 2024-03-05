@@ -5,8 +5,18 @@ let
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   pactl = "${pkgs.pulseaudio}/bin/pactl";
+  # Imported custom settings (This just makes it easier to change custom settings)
+  custom = import ../custom/hyprland-custom.nix;
 in
 {
+  options = {
+    layout = {
+      type = "string";
+      default = "auto";
+      description = "The layout of the monitors for Hyprland.";
+    };
+  };
+
   xdg.desktopEntries."org.gnome.Settings" = {
       name = "Settings";
       comment = "Gnome Control Center";
@@ -28,22 +38,30 @@ in
           "hyprctl setcursor Adwaita 24"
         ];
 
-        monitor = [
-          #",preferred,auto,auto"
-          #<MONITOR_NAME>,<RESOLUTION>,<PLACEMENT>,<SCALE>
-          # Example:
-          # eDP-1, 1920x1080, 0x0, 1
-          "DP-1,1920x1080,0x0,auto"
-          "DVI-D-1,1920x1080,1920x0,auto"
+        # Monitor setup -- uses the layout option
+        monitor = if options.layout == "auto" then
+        [
+          # Automatically detect the monitors and set them up
+          ",preferred,auto,auto"
+        ] else if options.layout == "custom" then
+        custom.monitor
+        else
+        [
+          # If not a valid option, default to auto
+          ",preferred,auto,auto"
         ];
 
-        workspace = [
-          "1, monitor:DP-1"
-          "2, monitor:DVI-D-1"
-          "3, monitor:DP-1"
-          "4, monitor:DVI-D-1"
-          "5, monitor:DP-1"
-          "6, monitor:DVI-D-1"
+        workspace = if options.layout == "auto" then
+        [
+          # Automatically detect the monitors and set them up
+          "auto"
+        ]
+        else if options.layout == "custom" then 
+        custom.workspace
+        else
+        [
+          # If not a valid option, default to auto
+          "auto"
         ];
 
         general = {
