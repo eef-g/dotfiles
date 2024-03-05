@@ -2,11 +2,8 @@
 
   imports = [
     /etc/nixos/hardware-configuration.nix
+#    ./nvidia.nix
     ./hyprland.nix
-
-    # Comment this out if not using NVIDIA card:
-    ./nvidia.nix
-
     # Add other nixos configuration files here
     (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   ];
@@ -22,11 +19,11 @@
   };
 
   # Virtualization
-  # programs.virt-manager.enable = true;
-  # virtualization = {
-  #   libvirtd.enable = true;
-  #   # Add QEmu & KVM & Docker later
-  # };
+  programs.virt-manager.enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    docker.enable = true;
+  };
 
   # Dconf
   programs.dconf.enable = true;
@@ -98,6 +95,7 @@
       "audio"
       "video"
       "libvirtd"
+      "docker"
     ];
     shell = pkgs.zsh;
   };
