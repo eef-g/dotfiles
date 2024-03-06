@@ -4,107 +4,31 @@
 <br> <br> <br>
 <h2 align="center"> <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> Building <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> </h2>
 
-1. Install NixOS on a machine (if using NixOS on WSL, follow the instructions [here](https://github.com/nix-community/NixOS-WSL))
-2. Make sure you have git installed on the NixOS install. If not, add the following text to your /etc/nixos/configuration.nix file. If you want to use a nix-shell instead, skip this step.
+1. Install NixOS on a machine 
+2. If you do not have the git package installed, run the following command:
 ```bash
-# First, use nano to edit the configuration.nix file
-sudoedit /etc/nixos/configuration.nix
-```
-```nix
-# Add the following to your configuration if on WSL:
-environment.systemPackages = with pkgs; [
-    git
-    # gh # If you want to log in to GitHub, uncomment this line
-];
-```
-```nix
-# Add the following to your environment.systemPackages variable in your configuration if using a default NixOS install NOT on WSL:
-git
+nix-shell -p git
 ```
 3. Clone this repository into a folder (__NOTE: If you want to avoid issues with git and NixOS, make a fork of this repository and clone the fork instead of the original__). Below is the command I usually use for this step:
 ```bash
 git clone https://github.com/eef-g/nix-dots.git ~/nix
 ```
+4. Run the help command on the build script
 ```bash
-# If you want to use a nix-shell, use the following commands.
-# NOTE: Stay in the nix-shell until you complete the first run of the build script if using this method
-sudo nix-shell -p git --run 'git clone https://github.com/eef-g/nix-dots.git'
+./rebuild.sh -h
 ```
-4. Enable the build script within the new directory if you want to have an easy time building the NixOS images
+5. To use the installation script, run the following command _as sudo_. The installation script will prompt you questions about preferences.
+(**To use default customization, press enter to decline any customization and use the defaults. The default customization files are for my system**)
 ```bash
-sudo chmod +x ~/nix/build.sh
+sudo ./rebuild.sh -i
 ```
-5. Run the help command on the build script
-```bash
-./build.sh -h
-```
-6. To use one of my configurations, run one of the following commands. These are based off of <u><b>my</b></u> hardware, so you may experience issues if you do this (__make sure you are within the ~/nix directory to run the following commands__):
-```bash
-sudo ./build.sh <CONFIG_LISTED_FROM_HELP_COMMAND>
-```
-6. If you want to use one of your configurations after creating one, run the following command:
-```bash
-sudo ./build.sh <NAME_OF_YOUR_CONFIG>
-```
+6. Reboot and log in. 
 
+**IF YOU HAVE NOT ALREADY SET A PASSWORD FOR YOUR USER, THE DEFAULT PASSWORD IS THE USERNAME**
 <br> <br> <br>
 <h2 align="center"> <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> Customization <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> </h2>
 
-- __How can I make my own configurations?__
-  - To create your own configuration, create a new folder in the hosts/ directory and include the pre-existing configuration.nix and hardware-configuration.nix files from your system (as long as it is not a multi-fle configuration). Afterwards, add the configuration to the flake.nix file with the following structure (replace any 'config_name' with the name of your configuration):
-```nix
-config_name = nixpkgs.lib.nixosSystem {
-  specialArgs = {inherit inputs;};
-  modules = [
-    ./hosts/config_name/configuration.nix
-    ./hosts/config_name/hardware_configuration.nix
-  ];
-};
-```
--   __How do I add or remove modules to configurations?__
-  - To add and remove modules from the repository to the configuration, there are two different ways to do so.
-```nix
-# Adding specific .nix file from modules/ directory
-config_name = nixpkgs.lib.nixosSystem {
-  specialArgs = {inherit inputs;};
-  modules = [
-    ./hosts/config_name/configuration.nix
-    ./hosts/config_name/hardware_configuration.nix
-    # Add specific .nix files here. For example, this is how to add only the neofetch module:
-    ./modules/home-manager/cli-tools/neofetch.nix
-  ];
-};
-```
-```nix
-# Adding pre-organized module collections
-config_name = nixpkgs.lib.nixosSystem {
-  specialArgs = {inherit inputs;};
-  modules = [
-    ./hosts/config_name/configuration.nix
-    ./hosts/config_name/hardware_configuration.nix
-  ]
-  # Add specific oranized modules with this syntax:
-  # ++ builtins.attrValues modlues.<name_of_module>;
-
-  # For multiple collections, use this format:
-  # ++builtins.attrValues modueles.<name_of_module_1>
-  # ++builtins.attrValues modueles.<name_of_module_2>;
-
-  # Example: adding cli-tools collection
-  ++ builtins.attrValues modules.cli-tools;
-  # ^^ Make sure the semi-colon ending the modules variable is only placed AFTER all of the module collections are added
-};
-```
-- __How can I create my own modules?__
-  - To create your own modules, you can create either a new directory or a new .nix file in the modules/ directory. The way that the modules are currently organized is as follows:
-    - modules > type_of_module > module_collection > individual_module_nix_files
-  - Once your modules are created, you can include them from the instructions above.
-  - To add your own module collections to the flake, edit the outputs.modules variable by adding the following line within the modules section of the program:
-```nix
-# Replace the variable name and the string variables to include the name of your collection and the path to the directory of your collection
-collection_name = builtins.mapAttrs (name: path: "$self}/path_to_module_collection_dir/${name}") (builtins.redDir "${self}/path_to_module_collection_dir");
-```
-
+* This will be filled in later once I figure out the entire workflow to cover most FAQs about customization :)
 <br> <br> <br>
 <img src="https://avatars.githubusercontent.com/u/74423016?v=4" alt="Eef GitHub Icon" height="40" width="40">
 > "That's all. Enjoy the configuration and the modular customization of my NixOS setup!"

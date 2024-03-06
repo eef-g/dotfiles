@@ -11,8 +11,8 @@ in
 {
   options = {
     layout = {
-      type = "string";
-      default = "auto";
+      type = "bool";
+      default = false;
       description = "The layout of the monitors for Hyprland.";
     };
   };
@@ -39,30 +39,20 @@ in
         ];
 
         # Monitor setup -- uses the layout option
-        monitor = if options.layout == "auto" then
+        monitor = if options.use-custom == false then
         [
           # Automatically detect the monitors and set them up
           ",preferred,auto,auto"
-        ] else if options.layout == "custom" then
-        custom.monitor
-        else
-        [
-          # If not a valid option, default to auto
-          ",preferred,auto,auto"
-        ];
+        ] else
+        custom.monitor;
 
-        workspace = if options.layout == "auto" then
+        workspace = if options.layout == false then
         [
           # Automatically detect the monitors and set them up
           "auto"
         ]
-        else if options.layout == "custom" then 
-        custom.workspace
         else
-        [
-          # If not a valid option, default to auto
-          "auto"
-        ];
+        custom.workspace;
 
         general = {
           layout = "dwindle";

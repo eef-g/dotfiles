@@ -7,6 +7,7 @@ SCRIPT_DIR="$(realpath "$(dirname "$0")")"
 CUSTOM_DIR="$SCRIPT_DIR/home-manager/custom"
 CUSTOM_FILES=(
 	"custom-hyprland.nix"
+	"custom-zsh.nix"
 )
 
 
@@ -15,28 +16,18 @@ CUSTOM_FILES=(
 ############################################
 has_nvidia() {
 	# Check if nvidia GPU is present
-	echo "Checking for Nvidia GPU"
+	log "Checking for Nvidia GPU"
 	if ls /dev | grep -q 'nvidia[0-9]\+'; then
-		echo "Nvidia GPU detected - Enabling Nvidia Drivers & Settings"
+		log "Nvidia GPU detected - Enabling Nvidia Drivers & Settings"
 		return 0
 	else
-		echo "No Nvidia GPU detected - Disabling Nvidia Drivers & Settings"
+		log "No Nvidia GPU detected - Disabling Nvidia Drivers & Settings"
 		if ! sed -n '5p' $SCRIPT_DIR/nixos/configuration.nix | grep -q '^#'; then
             sed -i '5s/^/#/' $SCRIPT_DIR/nixos/configuration.nix
+			log -m "Commented out line 5 in $SCRIPT_DIR/nixos/configuration.nix -- Uncomment to enable Nvidia Drivers & Settings"
         fi
 		return 1
 	fi
-}
-
-log() {
-	local timestamp=$(date +"%Y-%m-%d %T")
-    if [[ $1 != "-m" ]]; then
-        echo "$@"
-		echo "[$timestamp] $@" >> $SCRIPT_DIR/rebuild.log
-	else
-		shift
-		echo "[$timestamp] $@" >> $SCRIPT_DIR/rebuild.log
-    fi
 }
 
 help_text() {
@@ -89,12 +80,24 @@ ascii_title() {
 }
 
 rebuild_option() {
+	log -m "Rebuild Option: $1"
 	case "$1" in
-	"home") home-manager --flake $SCRIPT_DIR switch ;;
-	"nix") nixos-rebuild --flake $SCRIPT_DIR switch --impure ;;
-	"full") nixos-rebuild --flake $SCRIPT_DIR switch --impure && home-manager --flake $SCRIPT_DIR switch ;;
-	*) echo "ERROR: Only valid modes are ['home', 'nix', 'full']." && echo "Invalid Mode: '$1'" ;;
+	"home")  
+		home-manager --flake $SCRIPT_DIR switch
+	;;
+	"nix") 
+		nixos-rebuild --flake $SCRIPT_DIR switch --impure
+	;;
+	"full") 
+		nixos-rebuild --flake $SCRIPT_DIR switch --impure
+		home-manager --flake $SCRIPT_DIR switch
+	;;
+	*)
+		echo "ERROR: Only valid modes are ['home', 'nix', 'full']." 
+		echo "Invalid Mode: '$1'"
+	;;
 	esac
+	log -m "Rebuild Option: $1 -- Completed"
 	return 0
 }
 
@@ -105,35 +108,74 @@ fresh_install() {
 	log -m "Fresh Install Began"
 	local user_name
 	local host_name
-	local home_man_dir="$SCRIPT_DIR/home-manager/"
+	local enable_custom_configs
 	# Check to see if there is an nvidia GPU
 	has_nvidia
 	# Prompt for user input
+	log -m "Prompting for name & devicename"
 	read -p "Enter your username: " user_name
 	read -p "Enter your hostname: " host_name
-	echo "\n\n== User Information =="
+	echo ""
+	echo ""
+	echo "== User Information =="
 	log "Username: $user_name"
 	log "Hostname: $host_name"
 	# Set the username and hostname in the flake.nix file
 	sed -i "s/<TEMP_USERNAME>/$user_name/g" $SCRIPT_DIR/flake.nix
 	sed -i "s/<TEMP_HOSTNAME>/$host_name/g" $SCRIPT_DIR/flake.nix
 	# Check if the user wants to use custom configurations
-	echo "\n\n== Custom Configurations =="
+	echo ""
+	echo ""
+	echo "== Custom Configurations =="
 	echo -e "Custom configurations are located in \n '\033[0;32m$CUSTOM_DIR\033[0m'"
+	read -p "Would you like to use custom configurations? [y/N]: " enable_custom_configs
+	if [[ -z "$enable_custom_configs" ]]; then
+		enable_custom_configs="N"
+		log -m "Using default configurations"
+	fi
+	if [[ "$enable_custom_configs" == "Y" || "$enable_custom_configs" == "y" ]]; then
+		# Use custom configurations
+		use_custom_configs
+	fi
+	# Run the nixos-rebuild command to install the system
+	rebuild_option "full"
+	# Log the end of the fresh install
+	log -m "Fresh Install Completed"
+}
+
+use_custom_configs() {
+	log -m "Using custom configurations"
+	# Use custom configurations for the specified programs
 	for file in "${CUSTOM_FILES[@]}"; do
 		local custom_config
 		local program=$(echo $file | cut -d'-' -f2 | cut -d'.' -f1)
-		read -p "Would you like to use custom configurations for $program? [y/N]: " custom_config
+		read -p $'Would you like to use custom configurations for \033[0;32m'"$program"$'\033[0m? [y/N]: ' custom_config
 		if [[ -z "$custom_config" ]]; then
 			custom_config="N"
 		fi
-		log -m "Custom Configurations for $program: $custom_config"
 		if [[ "$custom_config" == "Y" || "$custom_config" == "y" ]]; then
 			local nix_file="$SCRIPT_DIR/nixos/$program.nix"
 			echo "Using custom configuration for $program"
 			# Change the nix file to use the custom configuration
+			local line_num=$(grep -n "programs.$program = import" $SCRIPT_DIR/home-manager/home.nix | cut -d':' -f1)
+			line_num=$((line_num + 2)) # Need to add 2 to get to the actual line since the import line is 2 lines above the actual line
+			sed -i "${line_num}s/false/true/" $SCRIPT_DIR/home-manager/home.nix
+			log -m "Changed value of line $line_num in $SCRIPT_DIR/home-manager/home.nix to true for $program"
 		fi
 	done
+	log -m "Change use-custom values in $SCRIPT_DIR/home-manager/home.nix to false to disable custom configurations"
+	log -m "Custom configurations have been set"
+}
+
+log() {
+	local timestamp=$(date +"%Y-%m-%d %T")
+    if [[ $1 != "-m" ]]; then
+        echo "$@"
+		echo "[$timestamp] $@" >> $SCRIPT_DIR/rebuild.log
+	else
+		shift
+		echo "[$timestamp] $@" >> $SCRIPT_DIR/rebuild.log
+    fi
 }
 
 testing() {
@@ -141,9 +183,18 @@ testing() {
 }
 
 clear_config() {
+	# Reset the flake.nix file to the original state from the test values
 	sed -i "s/\"eef\"/\"<TEMP_USERNAME>\"/g" $SCRIPT_DIR/flake.nix
 	sed -i "s/\"nixos\"/\"<TEMP_HOSTNAME>\"/g" $SCRIPT_DIR/flake.nix
+	# Reset the home-manager configuration to not use custom configurations
+	sed -i "s/use-custom = true/use-custom = false/g" $SCRIPT_DIR/home-manager/home.nix
+	# Reset the nixos configuration to not have NVIDIA commented out if it is
+	if sed -n '5p' $SCRIPT_DIR/nixos/configuration.nix | grep -q '^#'; then
+		sed -i '5s/^#//' $SCRIPT_DIR/nixos/configuration.nix
+	fi
+	echo "Configuration has been reset to default -- You can push the changes if needed"
 }
+
 
 
 ############################################
@@ -153,6 +204,7 @@ clear_config() {
 if [[ "$#" -eq 0 ]]; then
 	help_text
 fi
+# Parse arguments
 while test $# != 0; do
 	case "$1" in
 	install) fresh_install ;;

@@ -1,20 +1,18 @@
 { pkgs, ... }:
   let
-    # Import the custom configuration
-    custom = import ../custom/zsh-custom.nix;
-  in {
     options = {
       enable-starship = {
         default = true;
         description = "Enable starship prompt";
       };
       use-custom = {
-        default = true;
+        default = false;
         description = "Use custom zsh configuration";
       };
-
     };
-
+    # Import the custom configuration
+    custom = import ../custom/zsh-custom.nix;
+  in {
     programs.zsh = {
       enable = true;
 
@@ -33,7 +31,7 @@
     {
       enable = true;
       settings = {
-        
+        # Starship config
       };
     };
   };
