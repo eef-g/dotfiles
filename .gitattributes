@@ -1,2 +1,5 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+*.js linguist-vendored
+*.ts linguist-vendored
+*.json linguist-vendored
+*.scss linguist-vendored
+*.zsh linguist-vendored

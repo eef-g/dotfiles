@@ -1,57 +1,51 @@
 {
-  description = "Nixos config flake";
+  description = "Eef's NixOS configuration";
 
   inputs = {
+    # Get the latest NixOS unstable
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    # Get the latest home-manager
     home-manager = {
-    	url = "github:nix-community/home-manager";
-    	inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Get the latest Hyprland
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.nixpkgs.follows = "hyprland";
+    };
+    # Get the latest AGS & Dependencies (These are used for wigets in Hyprland)
+    matugen.url = "github:InioX/matugen";
+    ags.url = "github:Aylur/ags";
+    stm.url = "github:Aylur/stm";
   };
-  outputs = { self, nixpkgs, ... }@inputs:
-    let 
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      lib = nixpkgs.lib;
 
-      # Bulk module imports
-      modules = {
-        cli-tools = builtins.mapAttrs (name: path: "${self}/modules/home-manager/cli-tools/${name}") (builtins.readDir "${self}/modules/home-manager/cli-tools");
-        terminals = builtins.mapAttrs (name: path: "${self}/modules/home-manager/terminals/${name}") (builtins.readDir "${self}/modules/home-manager/terminals");
-        software = builtins.mapAttrs (name: path: "${self}/modules/home-manager/software/${name}") (builtins.readDir "${self}/modules/home-manager/software");
-	dev-tools = builtins.mapAttrs (name: path: "${self}/modules/home-manager/dev-tools/${name}") (builtins.readDir "${self}/modules/home-manager/dev-tools");
-      };
-    in
-    {
-      nixosConfigurations = {
-        default = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs;};
-          modules = [
-            ./hosts/default/configuration.nix
-          ];
-        };
-
-        laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs;};
-          modules = [
-            ./hosts/laptop/configuration.nix
-            ./hosts/laptop/hardware-configuration.nix
-          ] 
-          ++ builtins.attrValues modules.cli-tools
-          ++ builtins.attrValues modules.terminals
-          ++ builtins.attrValues modules.software;
-        };
-
-	wsl = nixpkgs.lib.nixosSystem {
-	  specialArgs = {inherit inputs;};
-	  modules = [
-	    ./hosts/wsl/configuration.nix
-	    ./hosts/wsl/hardware-configuration.nix
-	  ]
-	  ++ builtins.attrValues modules.cli-tools
-	  ++ builtins.attrValues modules.dev-tools;
-	};
-      };
+  outputs = { home-manager, nixpkgs, ...}@inputs: let
+    username = "<TEMP_USERNAME>";
+    hostname = "<TEMP_HOSTNAME>";
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
     };
+    widgets = pkgs.callPackage ./ags { inherit inputs; };
+  in {
+    nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inherit inputs username hostname system widgets;
+      };
+      modules = [
+        ./nixos/configuration.nix
+      ];
+    };
+
+    homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = { inherit inputs username widgets; };
+      modules = [ ./home-manager/home.nix];
+    };
+
+    packages.${system}.default = widgets;
+  };
 }
