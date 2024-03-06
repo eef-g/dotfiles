@@ -30,6 +30,11 @@ sudo ./rebuild.sh -i
 
 * This will be filled in later once I figure out the entire workflow to cover most FAQs about customization :)
 <br> <br> <br>
+<h2 align="center"> <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> Huge Thanks <img src="https://imgs.search.brave.com/FBoXoc3z1QYFD0Tx-q_Mt0m7RIO3IGGQvQVxJmTgwfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pY29u/LmljZXBhbmVsLmlv/L1RlY2hub2xvZ3kv/c3ZnL05peE9TLnN2/Zw.svg" alt="NixOS_Logo" width="20" height="20"/> </h2>
+
+* A huge thank you to [Aylur](https://github.com/Aylur) for creating the widgets found in the ags/ directory as well as the initial inspiration post on [reddit](https://www.reddit.com/r/unixporn/comments/1avnfjn/hyprland_animations_theme_generation_settings/). The post inspired me to redo my NixOS configuration similar to his. Please go show them some suport and star the [original repo](https://github.com/Aylur/dotfiles?tab=readme-ov-file) if you enjoy my dotfiles!
+<br> <br> <br>
 <img src="https://avatars.githubusercontent.com/u/74423016?v=4" alt="Eef GitHub Icon" height="40" width="40">
+
 > "That's all. Enjoy the configuration and the modular customization of my NixOS setup!"
 >  -Eef
