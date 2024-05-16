@@ -1,0 +1,9 @@
+.git
+.gitignore
+scripts
+.assets
+
+^/.bash_history
+
+^/README.*
+^/LICENSE.*
