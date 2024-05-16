@@ -5,3 +5,5 @@ echo "Syncing dotfiles"
 
 cd ~/dotfiles &
 stow . --adopt
+
+source ~/.zshrc
