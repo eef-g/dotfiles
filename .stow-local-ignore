@@ -3,7 +3,7 @@
 .gitattributes
 scripts
 .assets
-
+bin
 ^/.bash_history
 
 ^/README.*
