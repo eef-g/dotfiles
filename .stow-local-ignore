@@ -4,6 +4,7 @@
 scripts
 .assets
 bin
+resc
 ^/.bash_history
 
 ^/README.*

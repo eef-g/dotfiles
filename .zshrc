@@ -14,8 +14,8 @@ source ~/.zpm/zpm.zsh
 if [[ -f ~/.zpm/zpm.zsh ]]; then
   zpm load zsh-users/zsh-autosuggestions
   zpm load zsh-users/zsh-syntax-highlighting
-  zpm clear
 fi
+
 # User configuration
 # Aliases
 alias syncdots="$DOTFILES_DIR/bin/sync.sh"
@@ -24,6 +24,9 @@ if [ -x "$(command -v colorls)" ]; then
     alias la="colorls -al"
 fi
 alias ffetch="clear && fastfetch --raw $HOME/.config/fastfetch/eef.sixel --logo-width 25 --logo-height 15"
+
+# Enable zoxide
+eval "$(zoxide init zsh)"
 
 # Enable starship prompt
 eval "$(starship init zsh)"
