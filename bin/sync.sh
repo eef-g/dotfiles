@@ -5,7 +5,8 @@ echo "Syncing dotfiles"
 
 cd ~/dotfiles && stow . --adopt
 
-# Update the omz & zsh configs
-zsh && exit
+# Update the zsh configs
+source ~/.zshrc
+
 # Source the tmux config
 tmux source ~/.tmux.conf

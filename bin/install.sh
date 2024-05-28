@@ -1,7 +1,7 @@
 #!/bin/bash
 PKGS=("stow" "fastfetch" "lazygit" "neovim"
-	  "tmux" "foot" "zsh" "gcc" "rubygems"
-	  "ruby-devel")
+	"tmux" "foot" "zsh" "gcc" "rubygems"
+	"ruby-devel")
 
 echo "Installing dependencies"
 
@@ -39,10 +39,13 @@ done
 # Adding the pwd to the env variable
 echo "Adding pwd as an env variable: DOTFILES_DIR"
 export DOTFILES_DIR=$(pwd)
-echo "export DOTFILES_DIR=$(pwd)" > /tmp/tmpzsh && cat $(pwd)/.zshrc >> /tmp/tmpzsh && mv /tmp/tmpzsh $(pwd)/.zshrc
+echo "export DOTFILES_DIR=$(pwd)" >/tmp/tmpzsh && cat $(pwd)/.zshrc >>/tmp/tmpzsh && mv /tmp/tmpzsh $(pwd)/.zshrc
 
 echo "Changing shell to zsh"
 chsh -s $(which zsh)
 
 echo "Syncing dotfiles"
 cd ~/dotfiles && stow . --adopt
+
+echo "Installing tpm"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

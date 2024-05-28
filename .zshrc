@@ -1,18 +1,21 @@
 export DOTFILES_DIR=/home/eef/dotfiles
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.cargo/bin:$HOME/.local/share/bob/nvim-bin:/home/eef/.local/share/gem/ruby/3.1.0/bin:$PATH
+#
+#
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.cargo/bin:$HOME/.local/share/bob/nvim-bin:/home/eef/.local/share/gem/ruby/3.0.0/bin:/home/eef/.local/share/gem/ruby/3.1.0/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
 
-zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-DISABLE_AUTO_TITLE="true"
-ZSH_CUSTOM=$HOME/.config/.oh-my-zsh
+if [[ ! -f ~/.zpm/zpm.zsh ]]; then
+  git clone --recursive https://github.com/zpm-zsh/zpm ~/.zpm
+fi
 
-plugins=( git zsh-syntax-highlighting zsh-autosuggestions )
-
-source $ZSH/oh-my-zsh.sh
-
+source ~/.zpm/zpm.zsh
+# Install plugins here ONLY if zpm is installed
+if [[ -f ~/.zpm/zpm.zsh ]]; then
+  zpm load zsh-users/zsh-autosuggestions
+  zpm load zsh-users/zsh-syntax-highlighting
+  zpm clear
+fi
 # User configuration
 # Aliases
 alias syncdots="$DOTFILES_DIR/bin/sync.sh"
