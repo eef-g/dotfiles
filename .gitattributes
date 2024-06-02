@@ -5,3 +5,4 @@
 *.lua linguist-vendored
 *.vim linguist-vendored
 *.js linguist-vendored
+*.css linguist-vendored
