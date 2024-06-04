@@ -1,92 +1,195 @@
+/*-- 
+ * Color Definitions
+ * --*/
+
+@define-color backgroundlight #2E3440;
+@define-color backgrounddark #FFFFFF;
+@define-color errorcolor #bf616a;
+@define-color workspacesbackground1 #81A1C1;
+@define-color workspacesbackground2 #88c0d0;
+@define-color bordercolor #CCFFEE;
+@define-color textcolor1 #d8dee9;
+@define-color textcolor2 #E5E9F0;
+@define-color textcolor3 #ECEFF4;
+@define-color iconcolor #FFFFFF;
+
+/*--
+ * General Settings
+ * --*/
+
 * {
     border: none;
-    font-family: Font Awesome, Roboto, Arial, sans-serif;
-    font-size: 13px;
-    color: #ffffff;
+    font-family: "JetBrains Nerd Font Mono", Font Awesome, Roboto, Arial, sans-serif;
     border-radius: 20px;
 }
 
-window {
-	/*font-weight: bold;*/
-}
 window#waybar {
-    background: rgba(0, 0, 0, 0);
-}
-/*-----module groups----*/
-.modules-right {
-	background-color: rgba(0,43,51,0.85);
-    margin: 2px 10px 0 0;
-}
-.modules-center {
-	background-color: rgba(0,43,51,0.85);
-    margin: 2px 0 0 0;
-}
-.modules-left {
-    margin: 2px 0 0 5px;
-	background-color: rgba(0,119,179,0.6);
-}
-/*-----modules indv----*/
-#workspaces button {
-    padding: 1px 5px;
-    background-color: transparent;
-}
-#workspaces button:hover {
-    box-shadow: inherit;
-	background-color: rgba(0,153,153,1);
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 0px solid #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s; }
+
+/*--
+ * Modules
+ * --*/
+
+.modules-left > widget:first-child > #workspaces {
+  margin-left: 0;
 }
 
-#workspaces button.focused {
-	background-color: rgba(0,43,51,0.85);
+.modules-right > widget:last-child > #workspaces {
+  margin-right: 0;
 }
 
-#clock,
-#battery,
-#cpu,
-#memory,
-#temperature,
-#network,
-#pulseaudio,
-#custom-media,
-#tray,
-#mode,
-#custom-power,
-#custom-menu,
-#idle_inhibitor {
-    padding: 0 10px;
-}
-#mode {
-    color: #cc3436;
+
+/* -----------------------------------------------------
+ * Workspaces
+ * ----------------------------------------------------- */
+
+#workspaces {
+    margin: 5px 1px 6px 1px;
+    padding: 0px 1px;
+    border-radius: 15px;
+    border: 0px;
     font-weight: bold;
+    font-style: normal;
+    font-size: 16px;
+    color: @textcolor1;
+    background: @backgroundlight;
 }
-#custom-power {
-    background-color: rgba(0,119,179,0.6);
-    border-radius: 100px;
-    margin: 5px 5px;
-    padding: 1px 1px 1px 6px;
+
+#workspaces button {
+    padding: 0px 5px 0px 5px;
+    margin: 5px 5px 5px 5px;
+    
+    border-radius: 15px;
+    border: 0px;
+    color: @workspacesbackground1;
+    transition: all 0.3s ease-in-out;
+    background: @workspacesbackground1;
 }
-/*-----Indicators----*/
-#idle_inhibitor.activated {
-    color: #2dcc36;
+
+#workspaces button.active {
+    color: @workspacesbackground2;
+    background: @workspacesbackground2;
+    border-radius: 15px;
+    min-width: 40px;
+    transition: all 0.3s ease-in-out;
 }
+
+#workspaces button:hover {
+    color: @textcolor1;
+    background: @workspacesbackground2;
+    border-radius: 15px;
+}
+
+
+/* -----------------------------------------------------
+ * Window
+ * ----------------------------------------------------- */
+
+#window {
+    border-radius: 15px;
+    padding: 0px 10px 0px 10px;
+    margin: 5px 5px 5px 5px;
+    border: 1px solid #CCFFEE;
+    background: @backgroundlight;
+    color:@textcolor2;
+    font-size: 16px;
+    font-weight:normal;
+    border: 1px solid #CCFFEE;
+}
+
+window#waybar.empty #window {
+    background-color:transparent;
+    border: 0px solid transparent;
+}
+
+
+/* -----------------------------------------------------
+ * Pulseaudio
+ * ----------------------------------------------------- */
+#pulseaudio {
+  background-color: #2E3440;
+  min-width: 40px;
+  border-radius: 15px;
+  padding: 0px 12px 0px 10px;
+  margin: 5px 7px 5px 10px;
+  border: 1px solid #CCFFEE;
+}
+
 #pulseaudio.muted {
-    color: #cc3436;
+    background-color: @backgrounddark;
+    color: @textcolor1;
 }
-#battery.charging {
-    color: #2dcc36;
+
+/* -----------------------------------------------------
+ * Network
+ * ----------------------------------------------------- */
+
+#network {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 0px 10px 0px 10px;
+    margin: 5px 10px 5px 10px;
+    border: 1px solid #CCFFEE;;
 }
-#battery.warning:not(.charging) {
-	color: #e6e600;
+
+
+/* -----------------------------------------------------
+ * Power Menu
+ * ----------------------------------------------------- */
+
+#custom-power {
+    background-color: #a3be8c;
+    border-radius: 100px;
+    padding: 0px 14px 0px 10px;
+    margin: 5px 7px 5px 10px;
 }
-#battery.critical:not(.charging) {
-    color: #cc3436;
+
+
+/* -----------------------------------------------------
+ * Application Menu
+ * ----------------------------------------------------- */
+
+#custom-apps {
+    font-size: 18px;
+    color: #CCFFEE;
+    background-color: #2E3440;
+    border-radius: 15px;
+    padding: 0px 14px 0px 10px;
+    margin: 5px 7px 5px 10px;
+    border: 1px solid #CCFFEE;
 }
-#temperature.critical {
-    color: #cc3436;
+
+
+/* -----------------------------------------------------
+ * System Tray
+ * ----------------------------------------------------- */
+#tray {
+  background-color: #2E3440;
+  min-width: 40px;
+  border-radius: 15px;
+  padding: 0px 12px 0px 10px;
+  margin: 5px 7px 5px 10px;
+  border: 1px solid #CCFFEE;
 }
-/*-----Colors----*/
-/*
- *rgba(0,85,102,1),#005566 --> Indigo(dye)
- *rgba(0,43,51,1),#002B33 --> Dark Green 
- *rgba(0,153,153,1),#009999 --> Persian Green 
- *
- */
+
+#tray.empty {
+  background-color: transparent;
+  border: 0px solid rgba(0, 0, 0, 0.2);
+}
+
+/* -----------------------------------------------------
+ * Clock
+ * ----------------------------------------------------- */
+#clock {
+  background-color: #2E3440;
+  min-width: 40px;
+  border-radius: 15px;
+  padding: 0px 12px 0px 10px;
+  margin: 5px 7px 5px 10px;
+  border: 1px solid #CCFFEE;
+}

@@ -1,0 +1,62 @@
+{
+    // Layout of bar
+    "layer": "top",
+    "modules-left": ["custom/apps", "tray", "hyprland/window"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["clock", "pulseaudio", "network", "custom/power"],
+
+    // Module Configs
+    "hyprland/workspaces": {
+      "active-only": false,
+      "all-outputs": true,
+      "format": "{}",
+      "format-icons": {
+        "urgent": "",
+        "active": "",
+        "default": ""
+      },
+      "persistent-workspaces": {
+        "*": 3
+      }
+    },
+    "hyprland/window": {
+      "rewrite": {
+        "(.*) — Mozilla Firefox": "Firefox",
+        "(.*) - Discord": "Discord",
+        "(.*) - Brave": "Brave",
+        "(.*) - Brave Search": "Brave",
+        "foot": "Terminal"
+      },
+      "separate-outputs": true
+    },
+    "clock": {
+      "format": "{:%I:%M %p}"
+    },
+    "network": {
+        "format-wifi": " ",
+        "format-ethernet": "󰈀 ",
+        "format-disconnected": "󰖪 ", 
+        "max-length": 50,
+        "on-click": "foot --title network -e nmtui connect"
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "pulseaudio": {
+        "format": "{volume}% {icon} ",
+        "format-muted": "0% {icon} ",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+	"custom/power": {
+		"format": "  ",
+		"on-click": "wlogout --protocol layer-shell"
+	},
+  "custom/apps": {
+    "format": "<big>󰣇</big>",
+    "on-click": "rofi -show drun"
+  }
+}

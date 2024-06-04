@@ -1,7 +1,7 @@
 #!/bin/bash
 PKGS=("stow" "fastfetch" "lazygit" "neovim"
 	"tmux" "foot" "zsh" "gcc" "rubygems"
-	"ruby-devel" "lazygit")
+	"ruby-devel" "lazygit" "inotify-tools")
 
 echo "Installing dependencies"
 
