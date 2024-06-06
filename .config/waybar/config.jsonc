@@ -1,14 +1,12 @@
 {
     // Layout of bar
     "layer": "top",
-    "modules-left": ["custom/apps", "tray", "hyprland/window"],
-    "modules-center": ["hyprland/workspaces"],
+    "modules-left": ["custom/apps", "hyprland/workspaces", "tray"],
+    "modules-center": ["hyprland/window"],
     "modules-right": ["clock", "pulseaudio", "network", "custom/power"],
 
     // Module Configs
     "hyprland/workspaces": {
-      "active-only": false,
-      "all-outputs": true,
       "format": "{}",
       "format-icons": {
         "urgent": "",
@@ -16,8 +14,8 @@
         "default": ""
       },
       "persistent-workspaces": {
-        "*": 3
-      }
+        "*": 2
+      },
     },
     "hyprland/window": {
       "rewrite": {

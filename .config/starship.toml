@@ -2,12 +2,12 @@
 
 
 format = """
-[](color_orange)\
+[](color_darkblue)\
 $os\
 $username$hostname\
-[](bg:color_yellow fg:color_orange)\
+[](bg:color_lightblue fg:color_darkblue)\
 $directory\
-[](fg:color_yellow bg:color_aqua)\
+[](fg:color_lightblue bg:color_aqua)\
 $git_branch\
 $git_status\
 [](fg:color_aqua bg:color_blue)\
@@ -37,10 +37,12 @@ color_orange = '#d08770'
 color_purple = '#b48ead'
 color_red = '#bf616a'
 color_yellow = '#ebcb8b'
+color_darkblue = '#5e81ac'
+color_lightblue = '#8fbcbb'
 
 [os]
 disabled = false
-style = "bg:color_orange fg:color_fg0"
+style = "bg:color_darkblue fg:color_fg0"
 
 [os.symbols]
 Windows = "󰍲 "
@@ -65,17 +67,17 @@ RedHatEnterprise = "󱄛 "
 
 [username]
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
+style_user = "bg:color_darkblue fg:color_fg0"
+style_root = "bg:color_darkblue fg:color_fg0"
 format = '[ $user]($style)'
 
 [hostname]
 ssh_only = false
-style = "bg:color_orange fg:color_fg0"
+style = "bg:color_darkblue fg:color_fg0"
 format = '[@$hostname]($style)'
 
 [directory]
-style = "fg:color_fg1 bg:color_yellow"
+style = "fg:color_fg1 bg:color_lightblue"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
