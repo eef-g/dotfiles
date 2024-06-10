@@ -15,8 +15,10 @@ for file in $files; do
 	file_array+=("$file")
 done
 
+dim=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}
 # Use smenu to display the list of files and allow the user to select one
-chosen_file=$(printf '%s\n' "${file_array[@]}" | smenu -c)
+chosen_file=$(printf '%s\n' "${file_array[@]}" |
+	fzf --preview "/home/eef/dotfiles/bin/fzf-image.sh $directory/{}")
 
 # Display the chosen file
 echo "Changing wallpaper to: $chosen_file"

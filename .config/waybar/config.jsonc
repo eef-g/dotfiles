@@ -17,19 +17,23 @@
         "*": 2
       },
     },
+
     "hyprland/window": {
       "rewrite": {
         "(.*) — Mozilla Firefox": "Firefox",
         "(.*) - Discord": "Discord",
         "(.*) - Brave": "Brave",
         "(.*) - Brave Search": "Brave",
-        "foot": "Terminal"
+        "foot": "Terminal",
+        "KDE Connect SMS": "Messages",
       },
       "separate-outputs": true
     },
+
     "clock": {
       "format": "{:%I:%M %p}"
     },
+
     "network": {
         "format-wifi": " ",
         "format-ethernet": "󰈀 ",
@@ -37,10 +41,12 @@
         "max-length": 50,
         "on-click": "foot --title network -e nmtui connect"
     },
+
     "tray": {
         "icon-size": 18,
         "spacing": 10
     },
+
     "pulseaudio": {
         "format": "{volume}% {icon} ",
         "format-muted": "0% {icon} ",
@@ -49,12 +55,14 @@
         },
         "on-click": "pavucontrol"
     },
-	"custom/power": {
-		"format": "  ",
-		"on-click": "wlogout --protocol layer-shell"
-	},
-  "custom/apps": {
-    "format": "<big>󰣇</big>",
-    "on-click": "rofi -show drun"
-  }
+
+    "custom/power": {
+      "format": "  ",
+      "on-click": "wlogout --protocol layer-shell"
+    },
+
+    "custom/apps": {
+      "format": "<big>󰣇</big>",
+      "on-click": "rofi -show drun"
+    }
 }

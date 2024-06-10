@@ -1,0 +1,28 @@
+# General Settings
+ignore-empty-password
+font="JetBrains Mono Nerd Font"
+
+# Formatting Settings
+clock
+timestr=%R
+datestr=%a, %e of %B
+
+# Visual Settings
+screenshots
+effect-blur=20x6
+effect-pixelate=5
+
+# Indicator Settings
+indicator
+indicator-radius=100
+indicator-capslock
+
+# Colors
+#key-hl-color=
+#separator-color=
+
+inside-color=eceff4ff
+inside-clear-color=ebcb8bff
+inside-caps-lock-color=b48eadff
+inside-ver-color=a3be8cff
+inside-wrong-color=bf616aff
