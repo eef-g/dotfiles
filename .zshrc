@@ -23,12 +23,15 @@ if [ -x "$(command -v colorls)" ]; then
     alias ls="colorls"
     alias la="colorls -al"
 fi
+
 alias ffetch="clear && fastfetch --raw $HOME/.config/fastfetch/eef.sixel --logo-width 25 --logo-height 15"
 alias vencord-installer="$DOTFILES_DIR/bin/vencord.sh"
+alias wayland-fix="$DOTFILES_DIR/bin/nvidia-fix.sh"
 
 # Enable zoxide
 eval "$(zoxide init zsh)"
 
-
 # Enable starship prompt
 eval "$(starship init zsh)"
+
+export PATH="$PATH:/home/eef/.local/bin"
