@@ -4,6 +4,7 @@ PKGS=("stow" "fastfetch" "lazygit" "neovim"
 	"ruby-devel" "lazygit" "inotify-tools")
 
 echo "Installing dependencies"
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 pkg_install() {
 
@@ -12,14 +13,13 @@ pkg_install() {
 	local usesudo
 	declare -A pkgmgr
 	pkgmgr=(
-		[arch]="pacman -S --noconfirm"
 		[alpine]="apk add --no-cache"
 		[debian]="apt-get install -y"
 		[ubuntu]="apt-get install -y"
 		[fedora]="dnf install -y"
 	)
 
-	distro=$(cat /etc/os-release | tr [:upper:] [:lower:] | grep -Poi '(debian|ubuntu|red hat|centos|arch|alpine|fedora)' | uniq)
+	distro=$(cat /etc/os-release | tr [:upper:] [:lower:] | grep -Poi '(debian|ubuntu|red hat|centos|alpine|fedora)' | uniq)
 	cmd="${pkgmgr[$distro]}"
 	[[ ! $cmd ]] && return 1
 	if [[ $1 ]]; then
@@ -31,10 +31,18 @@ pkg_install() {
 	fi
 }
 
-# This will be a loop to go through all of the needed dependencies
-for PKG in ${PKGS[@]}; do
-	pkg_install $PKG
-done
+DIST=$(cat /etc/os-release | tr [:upper:] [:lower:] | grep -Poi '(debian|ubuntu|red hat|centos|arch|alpine|fedora)' | uniq)
+
+if [[ $DIST != "arch" ]]; then
+	echo "Not Arch-Based"
+	for PKG in ${PKGS[@]}; do
+		pkg_install $PKG
+	done
+else
+	echo "Arch-Based"
+	sudo pacman -S --needed - <$SCRIPT_DIR/backups/pkglist.bak
+	sudo cp $SCRIPT_DIR/backups/pacman-hook.bak /usr/share/libalpm/hooks/pkglist.hook
+fi
 
 # Adding the pwd to the env variable
 echo "Adding pwd as an env variable: DOTFILES_DIR"
