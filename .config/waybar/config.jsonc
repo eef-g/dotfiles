@@ -3,7 +3,7 @@
     "layer": "top",
     "modules-left": ["custom/apps", "hyprland/workspaces", "tray"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["clock", "pulseaudio", "network", "custom/notification", "custom/power"],
+    "modules-right": ["battery",  "clock", "pulseaudio", "network", "custom/notification", "custom/power"],
 
     // Module Configs
     "hyprland/workspaces": {
@@ -54,6 +54,21 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+
+      "battery": {
+        "format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+        "format-icons": ["", "", "", "", ""],
+        "format-time": "{H}h{M}m",
+        "format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+        "format-full": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  Charged",
+        "interval": 30,
+        "states": {
+            "warning": 25,
+            "critical": 10
+        },
+        "tooltip": false,
+        "on-click": "2"
     },
 
     "custom/power": {
