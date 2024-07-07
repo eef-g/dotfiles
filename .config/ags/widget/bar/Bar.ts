@@ -14,6 +14,7 @@ import { BatteryLabel } from "./widgets/Battery"
 import { Clock } from "./widgets/Clock"
 import { SysTrayButton } from "widget/tray/TrayButton"
 import { LauncherButton } from "./widgets/Launcher"
+import { PowerButton } from "./widgets/PowerMenu"
 
 /******************************************************
   ____               _                             _   
@@ -52,6 +53,7 @@ function Right() {
     children: [
       BatteryLabel(),
       Volume(),
+      PowerButton(),
     ],
   })
 }
