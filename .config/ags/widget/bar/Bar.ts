@@ -30,9 +30,9 @@ function Left() {
   return Widget.Box({
     spacing: 8,
     children: [
-      LauncherButton,
+      LauncherButton(),
       Workspaces(),
-      SysTrayButton,
+      SysTrayButton(),
     ],
   })
 }
@@ -72,5 +72,4 @@ export function Bar(monitor = 0) {
     }),
   })
 }
-
 

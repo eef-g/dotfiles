@@ -1,7 +1,9 @@
 import { ToggleLauncher } from "widget/AppLauncher";
 
-export const LauncherButton = Widget.Button({
-  className: "LauncherButton",
-  label: "󰣇",
-  onClicked: ToggleLauncher,
-})
+export function LauncherButton() {
+  return Widget.Button({
+    className: "LauncherButton",
+    label: "󰣇",
+    onClicked: ToggleLauncher,
+  });
+}

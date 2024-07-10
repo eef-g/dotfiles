@@ -8,7 +8,8 @@ import { SysTrayWindow } from "widget/tray/TrayWindow"
 App.config({
   style: "./style.css",
   windows: [
-    Bar(),
+    Bar(0),
+    Bar(1),
     NotificationPopups(),
     applauncher,
     DateMenuWindow,

@@ -1,3 +1,4 @@
 .config/.oh-my-zsh/
 .vscode/
 .tmux/plugins/
+bin/nvidia-all
